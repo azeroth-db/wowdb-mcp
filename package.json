@@ -1,0 +1,42 @@
+{
+  "name": "wowdb-mcp",
+  "version": "0.2.0",
+  "description": "Search WoW Forever items, abilities, recipes and quests, and read their data and page links from wowdb.wiki.",
+  "homepage": "https://wowdb.wiki",
+  "mcpName": "wiki.wowdb/mcp",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "wowdb-mcp": "./server.mjs"
+  },
+  "exports": {
+    ".": "./tools.mjs",
+    "./http": {
+      "types": "./http.d.ts",
+      "default": "./http.mjs"
+    }
+  },
+  "files": [
+    "server.mjs",
+    "tools.mjs",
+    "http.mjs",
+    "http.d.ts",
+    "api.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "world-of-warcraft",
+    "wow-forever",
+    "wowdb",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.0.0"
+  }
+}
