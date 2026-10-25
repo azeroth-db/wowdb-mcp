@@ -2,9 +2,9 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "wiki.wowdb/mcp",
   "title": "Azeroth DB: WoW Forever",
-  "description": "Search WoW Forever items, abilities, recipes and quests, and read their data and page links from wowdb.wiki.",
+  "description": "Search WoW Forever items, abilities, recipes and quests, and read their data and page links from azeroth.wiki.",
   "repository": { "url": "https://github.com/azeroth-db/wowdb-mcp", "source": "github" },
-  "websiteUrl": "https://wowdb.wiki",
+  "websiteUrl": "https://azeroth.wiki",
   "version": "0.2.0",
   "packages": [
     {
@@ -15,5 +15,5 @@
       "transport": { "type": "stdio" }
     }
   ],
-  "remotes": [{ "type": "streamable-http", "url": "https://wowdb.wiki/api/mcp" }]
+  "remotes": [{ "type": "streamable-http", "url": "https://azeroth.wiki/api/mcp" }]
 }

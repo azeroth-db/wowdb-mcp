@@ -1,11 +1,11 @@
 # wowdb-mcp
 
-Read WoW Forever records from [wowdb.wiki](https://wowdb.wiki) over MCP stdio.
+Read WoW Forever records from [azeroth.wiki](https://azeroth.wiki) over MCP stdio.
 Search by a record's name, then read its values and open its exact page.
 
 ## Run from source
 
-Requires Node.js 22 or later.
+Requires Node.js 26.12.1 or later.
 
 ```sh
 npm install
@@ -16,7 +16,7 @@ The server writes MCP messages to stdout. It does not start an HTTP listener,
 read account records or change site data. It needs no API key.
 
 The site serves the same tools over Streamable HTTP at
-https://wowdb.wiki/api/mcp. `wowdb-mcp` exports `createServer`;
+https://azeroth.wiki/api/mcp. `wowdb-mcp` exports `createServer`;
 `wowdb-mcp/http` exports `handleMcp`, which answers one stateless Streamable
 HTTP request and is what the site's `/api/mcp` route runs.
 
@@ -127,7 +127,7 @@ the final result returns a tool error, rather than repeating the first page.
 
 `WOWDB_ORIGIN` is the single environment override for API requests, for
 example `http://localhost:3712`. It changes the request origin only.
-Returned page links and data links remain on `https://wowdb.wiki`.
+Returned page links and data links remain on `https://azeroth.wiki`.
 
 The package reads its own public API contracts. It does not import site
 source, store API payloads on disk or retain locale indexes between calls.

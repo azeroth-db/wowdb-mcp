@@ -1,8 +1,8 @@
 {
   "name": "wowdb-mcp",
   "version": "0.2.0",
-  "description": "Search WoW Forever items, abilities, recipes and quests, and read their data and page links from wowdb.wiki.",
-  "homepage": "https://wowdb.wiki",
+  "description": "Search WoW Forever items, abilities, recipes and quests, and read their data and page links from azeroth.wiki.",
+  "homepage": "https://azeroth.wiki",
   "mcpName": "wiki.wowdb/mcp",
   "license": "MIT",
   "type": "module",
@@ -26,7 +26,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=26.12.1"
   },
   "keywords": [
     "world-of-warcraft",

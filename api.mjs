@@ -1,4 +1,4 @@
-export const SITE = 'https://wowdb.wiki';
+export const SITE = 'https://azeroth.wiki';
 const API_ORIGIN = new URL(process.env.WOWDB_ORIGIN ?? SITE).origin;
 
 // The public item collections use 48 rows. The Forever beta admits levels through 30.
@@ -24,22 +24,26 @@ const missing = () => new Error('Entity not found. Use search to find a publishe
 
 async function json(path) {
   const url = new URL(path, API_ORIGIN);
-  if (url.origin !== API_ORIGIN) throw new Error('The API path must stay on the configured wowdb.wiki origin.');
+  if (url.origin !== API_ORIGIN) throw new Error('The API path must stay on the configured azeroth.wiki origin.');
   const response = await fetch(url, { headers: { accept: 'application/json' } });
   if (response.status === 404) throw missing();
-  if (!response.ok) throw new Error(`wowdb.wiki returned HTTP ${response.status}.`);
+  if (!response.ok) throw new Error(`azeroth.wiki returned HTTP ${response.status}.`);
   try {
     return await response.json();
   } catch {
-    throw new Error('wowdb.wiki did not return readable JSON.');
+    throw new Error('azeroth.wiki did not return readable JSON.');
   }
 }
 
+// A page address on wowdb.wiki, where the site served until November 1, 2026, names the same page on azeroth.wiki.
+const SITES = [SITE, 'https://wowdb.wiki'];
+
 function address(path) {
-  const url = new URL(path, SITE);
-  if (url.origin !== SITE || url.search || url.username || url.password) {
-    throw new Error('Use a wowdb.wiki page path returned by search, without query parameters.');
+  const given = new URL(path, SITE);
+  if (!SITES.includes(given.origin) || given.search || given.username || given.password) {
+    throw new Error('Use an azeroth.wiki page path returned by search, without query parameters.');
   }
+  const url = new URL(given.pathname + given.hash, SITE);
   const prefix = url.pathname.split('/')[1];
   const locale = Object.keys(LOCALES).find(key => LOCALES[key].prefix === prefix) ?? 'enUS';
   const base = LOCALES[locale].prefix ? `/${LOCALES[locale].prefix}/forever/` : '/forever/';
@@ -145,7 +149,7 @@ export function createApi() {
   async function records(locale) {
     const index = await json(`/api/forever/search${locale === 'enUS' ? '' : `/${locale}`}`);
     if (index.ruleset !== 'forever' || !index.rows || typeof index.rows !== 'object') {
-      throw new Error('wowdb.wiki returned an unexpected search index.');
+      throw new Error('azeroth.wiki returned an unexpected search index.');
     }
     return Object.entries(index.rows).flatMap(([key, rows]) => {
       const kind = key.replace(/^forever-/, '');
