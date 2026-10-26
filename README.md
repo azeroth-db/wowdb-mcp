@@ -1,7 +1,38 @@
 # wowdb-mcp
 
-Read WoW Forever records from [Azeroth DB](https://wowdb.wiki) over MCP stdio.
+Read WoW Forever records from [Azeroth DB](https://wowdb.wiki) over MCP.
 Search by a record's name, then read its values and open its exact page.
+
+## Connect
+
+The server runs at `https://wowdb.wiki/api/mcp` over Streamable HTTP. It needs
+no API key and no install. Add it to a client that connects to remote servers:
+
+```json
+{
+  "mcpServers": {
+    "wowdb": {
+      "url": "https://wowdb.wiki/api/mcp"
+    }
+  }
+}
+```
+
+In Claude Code: `claude mcp add --transport http wowdb https://wowdb.wiki/api/mcp`.
+
+A client that only starts local stdio servers reaches the same endpoint through
+[mcp-remote](https://www.npmjs.com/package/mcp-remote):
+
+```json
+{
+  "mcpServers": {
+    "wowdb": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://wowdb.wiki/api/mcp"]
+    }
+  }
+}
+```
 
 ## Run from source
 
@@ -12,46 +43,11 @@ npm install
 node server.mjs
 ```
 
-The server writes MCP messages to stdout. It does not start an HTTP listener,
-read account records or change site data. It needs no API key.
-
-The site serves the same tools over Streamable HTTP at
-https://wowdb.wiki/api/mcp. `wowdb-mcp` exports `createServer`;
-`wowdb-mcp/http` exports `handleMcp`, which answers one stateless Streamable
-HTTP request and is what the site's `/api/mcp` route runs.
-
-## Install the package
-
-npm publication is pending. To check a local tarball without adding the
-package as its own dependency, run from this directory after installing
-dependencies:
-
-```sh
-mkdir -p node_modules/.install-test
-npm pack --pack-destination node_modules/.install-test
-npm install --prefix node_modules/.install-test/prefix node_modules/.install-test/wowdb-mcp-0.2.1.tgz
-node_modules/.install-test/prefix/node_modules/.bin/wowdb-mcp
-```
-
-The prefix is disposable; remove `node_modules/.install-test` after closing
-the server. For a persistent client configuration before publication, use
-the source executable as described below.
-
-After npm publication, use this client configuration:
-
-```json
-{
-  "mcpServers": {
-    "wowdb": {
-      "command": "npx",
-      "args": ["-y", "wowdb-mcp"]
-    }
-  }
-}
-```
-
-Until publication, configure the client to run `node` with the absolute path
-to `server.mjs` from the installed package or source directory.
+`server.mjs` serves the same tools over MCP stdio. It writes MCP messages to
+stdout, starts no HTTP listener, reads no account records and changes no site
+data. `wowdb-mcp` exports `createServer`; `wowdb-mcp/http` exports
+`handleMcp`, which answers one stateless Streamable HTTP request and is what
+the site's `/api/mcp` route runs.
 
 ## Tools
 
@@ -90,11 +86,11 @@ Localized lookups return the site's preview data. Those responses may have
 English field labels, shortened relationship lists or missing text. They do
 not provide every field of the full English record. Localized guide records
 have no lookup API and are excluded. The API can describe an ability's last
-rank above the beta level cap; such a preview returns a tool error instead
-of presenting that rank as a beta ability. The full English ability response
-keeps ranks with a required level at or below 30, including an unknown level
+rank above the game's level cap of 60; such a preview returns a tool error
+instead of presenting that rank as available. The full English ability response
+keeps ranks with a required level at or below 60, including an unknown level
 when the API explicitly records it as null. Known item requirements and quest
-levels above 30 are excluded from discovery.
+levels above 60 are excluded from discovery.
 
 Keep nulls and missing fields unknown. An item's presence does not establish
 its drop chance or acquisition conditions. Prices such as `sellPrice` and

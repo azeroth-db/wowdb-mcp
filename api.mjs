@@ -1,9 +1,9 @@
 export const SITE = 'https://wowdb.wiki';
 const API_ORIGIN = new URL(process.env.WOWDB_ORIGIN ?? SITE).origin;
 
-// The public item collections use 48 rows. The Forever beta admits levels through 30.
+// The public item collections use 48 rows. WoW Forever publishes levels through 60.
 export const PAGE_SIZE = 48;
-const LEVEL_CAP = 30;
+const LEVEL_CAP = 60;
 export const LOCALES = {
   enUS: { prefix: '', language: 'en-US' },
   deDE: { prefix: 'de', language: 'de-DE' },
@@ -56,7 +56,7 @@ function pageKey(path) {
   return decodeURI(url.pathname).normalize('NFC') + decodeURIComponent(url.hash);
 }
 
-function inBeta(kind, facts) {
+function withinCap(kind, facts) {
   const level = kind === 'quest' ? facts[0] : kind === 'item' ? facts[3] : null;
   return typeof level !== 'number' || level <= LEVEL_CAP;
 }
@@ -110,7 +110,7 @@ function namedData(data, record) {
 function checkLevel(data, representation) {
   const level = representation === 'preview' ? data.stats?.find(row => row[0] === 'Level')?.[1] : data?.level;
   if (typeof level === 'number' && level > LEVEL_CAP) {
-    throw new Error('This API response describes content above the Forever beta level cap of 30. Search for another record; use the English full ability record for beta ranks.');
+    throw new Error('This API response describes content above the WoW Forever level cap of 60. Search for another record.');
   }
 }
 
@@ -154,7 +154,7 @@ export function createApi() {
     return Object.entries(index.rows).flatMap(([key, rows]) => {
       const kind = key.replace(/^forever-/, '');
       if (!KINDS.includes(kind) || (kind === 'guide' && locale !== 'enUS')) return [];
-      return rows.filter(row => inBeta(kind, row[7] ?? [])).map(row => {
+      return rows.filter(row => withinCap(kind, row[7] ?? [])).map(row => {
         const [id, name, path, , , , alternate, facts = []] = row;
         const { url } = address(path);
         return {
