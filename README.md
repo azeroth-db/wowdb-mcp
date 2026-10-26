@@ -1,6 +1,6 @@
 # wowdb-mcp
 
-Read WoW Forever records from [azeroth.wiki](https://azeroth.wiki) over MCP stdio.
+Read WoW Forever records from [Azeroth DB](https://wowdb.wiki) over MCP stdio.
 Search by a record's name, then read its values and open its exact page.
 
 ## Run from source
@@ -16,7 +16,7 @@ The server writes MCP messages to stdout. It does not start an HTTP listener,
 read account records or change site data. It needs no API key.
 
 The site serves the same tools over Streamable HTTP at
-https://azeroth.wiki/api/mcp. `wowdb-mcp` exports `createServer`;
+https://wowdb.wiki/api/mcp. `wowdb-mcp` exports `createServer`;
 `wowdb-mcp/http` exports `handleMcp`, which answers one stateless Streamable
 HTTP request and is what the site's `/api/mcp` route runs.
 
@@ -29,7 +29,7 @@ dependencies:
 ```sh
 mkdir -p node_modules/.install-test
 npm pack --pack-destination node_modules/.install-test
-npm install --prefix node_modules/.install-test/prefix node_modules/.install-test/wowdb-mcp-0.2.0.tgz
+npm install --prefix node_modules/.install-test/prefix node_modules/.install-test/wowdb-mcp-0.2.1.tgz
 node_modules/.install-test/prefix/node_modules/.bin/wowdb-mcp
 ```
 
@@ -127,7 +127,7 @@ the final result returns a tool error, rather than repeating the first page.
 
 `WOWDB_ORIGIN` is the single environment override for API requests, for
 example `http://localhost:3712`. It changes the request origin only.
-Returned page links and data links remain on `https://azeroth.wiki`.
+Returned page links and data links remain on `https://wowdb.wiki`.
 
 The package reads its own public API contracts. It does not import site
 source, store API payloads on disk or retain locale indexes between calls.

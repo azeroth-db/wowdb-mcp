@@ -18,7 +18,7 @@ const result = handler => async args => {
 
 /** The three read-only tools over one API instance. */
 export function createServer(api = createApi()) {
-  const server = new McpServer({ name: 'wowdb-mcp', version: '0.2.0' });
+  const server = new McpServer({ name: 'wowdb-mcp', version: '0.2.1' });
   server.registerTool('search', {
     description: 'Find WoW Forever records by name in the requested language. Returns kind, slug and exact production page path. Use that path with get_entity. Known level-gated records above beta level 30 are excluded. Localized guides have no record API and are not returned.',
     inputSchema: { query: z.string().trim().min(1), kind: z.enum(KINDS).optional(), locale: localeSchema, ...paginationSchema },

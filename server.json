@@ -4,7 +4,7 @@
   "title": "Azeroth DB: WoW Forever",
   "description": "Search WoW Forever items, recipes, abilities and quests with page links from Azeroth DB.",
   "repository": { "url": "https://github.com/azeroth-db/wowdb-mcp", "source": "github" },
-  "websiteUrl": "https://azeroth.wiki",
-  "version": "0.2.0",
-  "remotes": [{ "type": "streamable-http", "url": "https://azeroth.wiki/api/mcp" }]
+  "websiteUrl": "https://wowdb.wiki",
+  "version": "0.2.1",
+  "remotes": [{ "type": "streamable-http", "url": "https://wowdb.wiki/api/mcp" }]
 }
