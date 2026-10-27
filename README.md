@@ -6,12 +6,13 @@ Search by a record's name, then read its values and open its exact page.
 ## Connect
 
 The server runs at `https://wowdb.wiki/api/mcp` over Streamable HTTP. It needs
-no API key and no install. Add it to a client that connects to remote servers:
+no API key and no install. For Claude Code, use this MCP configuration:
 
 ```json
 {
   "mcpServers": {
     "wowdb": {
+      "type": "http",
       "url": "https://wowdb.wiki/api/mcp"
     }
   }
